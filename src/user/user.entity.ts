@@ -6,12 +6,15 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
-
   @Column({ unique: true })
-  email: string;
+  username: string;
 
-  @OneToMany(() => Meeting, (meeting) => meeting.user)
+  @Column()
+  password: string;
+
+  @Column({ default: 'user' })
+  role: string;
+
+  @OneToMany(() => Meeting, (meeting) => meeting.user, { cascade: true })
   meetings: Meeting[];
 }

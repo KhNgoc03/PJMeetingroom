@@ -18,7 +18,7 @@ export class MeetingController {
 
   @Post()
   create(@Body() meetingData: Partial<Meeting>) {
-    return this.meetingService.create(meetingData);
+    return this.meetingService.createMeeting(meetingData);
   }
 
   @Put(':id')

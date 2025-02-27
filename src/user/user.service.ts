@@ -5,27 +5,41 @@ import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
-  findAll() {
-    return this.userRepo.find();
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return this.userRepo.findOne({ where: { id } });
+  async findOne(id: number): Promise<User> {
+    return this.userRepository.findOne({ where: { id } });
   }
 
-  create(userData: Partial<User>) {
-    const user = this.userRepo.create(userData);
-    return this.userRepo.save(user);
+  async create(username: string, password: string, role: string): Promise<User> {
+    const user = this.userRepository.create({ username, password, role });
+    return this.userRepository.save(user);
   }
 
-  async update(id: number, updateData: Partial<User>) {
-    await this.userRepo.update(id, updateData);
+  async update(id: number, updateData: Partial<User>): Promise<User> {
+    await this.userRepository.update(id, updateData);
     return this.findOne(id);
   }
 
-  delete(id: number) {
-    return this.userRepo.delete(id);
+  async delete(id: number): Promise<void> {
+    await this.userRepository.delete(id);
   }
+
+
+  async findByUsername(username: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { username } });
+  }
+  
+  async createUser(username: string, password: string, role: string): Promise<User> {
+    const newUser = this.userRepository.create({ username, password, role });
+    return this.userRepository.save(newUser);
+  }
+  
 }

@@ -18,10 +18,11 @@ export class MeetingService {
     return await this.meetingRepository.findOne({ where: { id } });
   }
 
-  async create(meetingData: Partial<Meeting>): Promise<Meeting> {
+  async createMeeting(meetingData: Partial<Meeting>): Promise<Meeting> {
     const newMeeting = this.meetingRepository.create(meetingData);
     return await this.meetingRepository.save(newMeeting);
-  }
+}
+
 
   async update(id: number, updateData: Partial<Meeting>): Promise<Meeting | null> {
     const meeting = await this.findOne(id);
